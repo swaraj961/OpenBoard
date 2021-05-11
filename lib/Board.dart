@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:open_board/widget/drawingBoard.dart';
 
 class OpenBoardScreen extends StatefulWidget {
   @override
@@ -6,7 +9,7 @@ class OpenBoardScreen extends StatefulWidget {
 }
 
 class _OpenBoardScreenState extends State<OpenBoardScreen> {
-
+  double strokeWidth = 5;
 
   Color selectedColor = Colors.black;
   List<Color> allColorsList = [
@@ -16,49 +19,94 @@ class _OpenBoardScreenState extends State<OpenBoardScreen> {
     Colors.black,
     Colors.pink,
     Colors.blue,
-    Colors.orange,
-    Colors.deepPurple,
   ];
 
-  List<DrawingPoint> drawingPoints =[
-
-
-  ];
+  List<DrawingPoint> drawingPoints = [];
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      body: CustomPaint(
-        painter:  DrawingBoardPainter(),
-        child: Container(
-          height: size.height,
-          width: size.width
-        )
-      ),
+        body: Stack(
+          children: [
+            GestureDetector(
+              onPanStart: (details) {
+                setState(() {
+                  drawingPoints.add(DrawingPoint(
+                      offset: details.localPosition,
+                      paint: Paint()
+                        ..color = selectedColor
+                        ..isAntiAlias = true
+                        ..strokeCap = StrokeCap.round
+                        ..strokeWidth = strokeWidth));
+                });
+              },
+              onPanUpdate: (details) {
+                setState(() {
+                  drawingPoints.add(DrawingPoint(
+                      offset: details.localPosition,
+                      paint: Paint()
+                        ..color = selectedColor
+                        ..isAntiAlias = true
+                        ..strokeCap = StrokeCap.round
+                        ..strokeWidth = strokeWidth));
+                });
+              },
+              onPanEnd: (details) {
+                setState(() {
+                  drawingPoints.add(null);
+                });
+              },
+              child: CustomPaint(
+                  painter: DrawingBoardPainter(drawingPoints),
+                  child: Container(height: size.height, width: size.width)),
+            ),
+            Positioned(
+                top: 40,
+                right: 30,
+                child: Row(
+                  children: [
+                    Slider(
+                        min: 0,
+                        max: 40,
+                        value: strokeWidth,
+                        onChanged: (value) {
+                          setState(() {
+                            strokeWidth = value;
+                          });
+                        }),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        setState(() {
+                          drawingPoints = [];
+                        });
+                      },
+                      icon: Icon(Icons.clear),
+                      label: Text("Clear Board"),
+                    )
+                  ],
+                ))
+          ],
+        ),
         bottomNavigationBar: BottomAppBar(
-      color: Colors.grey[350],
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: List.generate(allColorsList.length,
-              (index) => buildColorsContainer(allColorsList[index]))),
-    ));
+          color: Colors.grey[350],
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(allColorsList.length,
+                  (index) => buildColorsContainer(allColorsList[index]))),
+        ));
   }
-
 
   Widget buildColorsContainer(Color color) {
     bool isSelected = selectedColor == color;
     return GestureDetector(
-      onPanStart: (details){
-        drawingPoints.add(DrawingPoint(offset: details.localPosition, paint: Paint()));
-      },
       onTap: () {
         setState(() {
           selectedColor = color;
         });
       },
       child: Container(
-        margin: EdgeInsets.all(10),
+        margin: EdgeInsets.all(8),
         padding: EdgeInsets.all(10),
         height: isSelected ? 50 : 40,
         width: isSelected ? 50 : 40,
@@ -70,29 +118,4 @@ class _OpenBoardScreenState extends State<OpenBoardScreen> {
       ),
     );
   }
-}
-
-
-class DrawingBoardPainter extends CustomPainter {
-
-  @override
-  void paint(Canvas canvas, Size size) {
-
-  }
-
-  @override
-  bool shouldRepaint(DrawingBoardPainter oldDelegate) => true;
-
-  @override
-  bool shouldRebuildSemantics(DrawingBoardPainter oldDelegate) => true;
-}
-
-
-class DrawingPoint {
-  Offset offset;
-  Paint paint;
-  DrawingPoint({
-    this.offset, this.paint
-  });
-  
 }
