@@ -1,16 +1,18 @@
-# open_board
+# Open_board - Flutter
 
-A new Flutter project.
+![star](https://img.shields.io/github/stars/swaraj961/OpenBoard) ![issues](https://img.shields.io/github/issues/swaraj961/OpenBoard) ![fork](https://img.shields.io/github/forks/swaraj961/OpenBoard) ![love](https://img.shields.io/badge/open%20%20source-%E2%9D%A4-red) ![flutter](https://img.shields.io/badge/Flutter-Framework-blue?logo=flutter) ![Dart](https://img.shields.io/badge/Dart-Language-blue?logo=dart) ![dev](https://img.shields.io/badge/developed%20by%20-swaraj%20routray-orange)
+![GitHub repo size](https://img.shields.io/github/repo-size/swaraj961/OpenBoard)
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Demo Dekstop :
+ 
+ <img src="https://github.com/swaraj961/OpenBoard/blob/master/demo.gif"/>
 
-A few resources to get you started if this is your first Flutter project:
+## Demo Mobile :
+ 
+ <img src="https://github.com/swaraj961/OpenBoard/blob/master/demoMobile.gif"/>
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+ 
+## Live -
+- https://open-board-swaraj.web.app/
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
